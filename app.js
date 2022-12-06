@@ -101,7 +101,7 @@ function getProductData() {
       subtotal.innerHTML = data.price;
     });
 }
-<div className=""></div>;
+
 let previous_value;
 
 document.querySelector(".quantity").addEventListener("change", function () {
@@ -121,4 +121,57 @@ document.querySelector(".quantity").addEventListener("change", function () {
     subtotal.innerHTML = subtotalValue - initialUnitePrice;
   }
   previous_value = quantityValue;
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Tab") {
+    e.preventDefault();
+
+    const tableBody = document.getElementById("table_body");
+
+    const tableRow = document.createElement("tr");
+    tableRow.innerHTML = `<td scope="row">
+    <input
+      class="form-control productId"
+      type="text"
+      placeholder="example 001.."
+      aria-label="productId input"
+      onkeyup="getProductData()"
+    />
+  </td>
+  <td>
+    <input
+      type="text"
+      readonly
+      class="form-control-plaintext description"
+      id="staticEmail2"
+      value=""
+    />
+  </td>
+  <td>
+    <input
+      type="text"
+      readonly
+      class="form-control-plaintext unitePrice"
+      id="staticEmail2"
+      value=""
+    />
+  </td>
+  <td>
+    <input
+      class="form-control quantity"
+      type="number"
+      min="01"
+      placeholder=""
+      aria-label="quantity"
+    />
+  </td>
+  <td class="subtotal">SubTotal</td>
+  <td>
+    <button type="button" class="btn btn-danger">Delete</button>
+  </td>`;
+
+    tableBody.appendChild(tableRow);
+    console.log("tab key pressesd");
+  }
 });
