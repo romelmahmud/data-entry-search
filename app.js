@@ -77,6 +77,7 @@
 // makeNavigable();
 
 // getProductsData when input change
+let initialUnitePrice = 0;
 
 function getProductData() {
   const idField = document.querySelector(".productId");
@@ -85,12 +86,9 @@ function getProductData() {
     idField.parentElement.parentElement.querySelector(".description");
   const unitePrice =
     idField.parentElement.parentElement.querySelector(".unitePrice");
-  const quantity =
-    idField.parentElement.parentElement.querySelector(".quantity");
+  const subtotal =
+    idField.parentElement.parentElement.querySelector(".subtotal");
 
-  // getting quantity and making it number
-  const quantityValue = +quantity.value;
-  console.log(quantityValue);
   const productID = idField.value;
 
   console.log(productID);
@@ -99,5 +97,41 @@ function getProductData() {
     .then((data) => {
       description.value = data.description;
       unitePrice.value = data.price;
+      initialUnitePrice = data.price;
+      subtotal.innerHTML = data.price;
     });
 }
+
+// function updateSubtotalValue() {
+//   const quantity = document.querySelector(".quantity");
+//   const subtotal = document.querySelector(".subtotal");
+//   const quantityValue = +quantity.value;
+//   const subtotalValue = +subtotal.innerHTML;
+
+//   if (subtotal.innerHTML === "" || subtotal.innerHTML === "SubTotal") {
+//     return;
+//   }
+//   console.log(quantityValue);
+//   subtotal.innerHTML = subtotalValue * quantityValue;
+// }
+
+let previous_value;
+
+document.querySelector(".quantity").addEventListener("change", function () {
+  const quantity = document.querySelector(".quantity");
+  const subtotal = document.querySelector(".subtotal");
+  if (subtotal.innerHTML === "" || subtotal.innerHTML === "SubTotal") {
+    return;
+  }
+  const quantityValue = +quantity.value;
+  const subtotalValue = +subtotal.innerHTML;
+
+  console.log(previous_value, quantityValue, subtotalValue);
+
+  if (previous_value < quantityValue) {
+    subtotal.innerHTML = initialUnitePrice * quantityValue;
+  } else if (previous_value > quantityValue) {
+    subtotal.innerHTML = subtotalValue - initialUnitePrice;
+  }
+  previous_value = quantityValue;
+});
