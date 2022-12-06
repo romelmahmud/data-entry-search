@@ -101,20 +101,7 @@ function getProductData() {
       subtotal.innerHTML = data.price;
     });
 }
-
-// function updateSubtotalValue() {
-//   const quantity = document.querySelector(".quantity");
-//   const subtotal = document.querySelector(".subtotal");
-//   const quantityValue = +quantity.value;
-//   const subtotalValue = +subtotal.innerHTML;
-
-//   if (subtotal.innerHTML === "" || subtotal.innerHTML === "SubTotal") {
-//     return;
-//   }
-//   console.log(quantityValue);
-//   subtotal.innerHTML = subtotalValue * quantityValue;
-// }
-
+<div className=""></div>;
 let previous_value;
 
 document.querySelector(".quantity").addEventListener("change", function () {
