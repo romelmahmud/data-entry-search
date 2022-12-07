@@ -83,52 +83,7 @@
 //   });
 // }
 
-// getProductsData when input change
 let initialUnitePrice = 0;
-
-// function getProductData() {
-//   const idField = document.querySelector(".productId");
-
-//   const description =
-//     idField.parentElement.parentElement.querySelector(".description");
-//   const unitePrice =
-//     idField.parentElement.parentElement.querySelector(".unitePrice");
-//   const subtotal =
-//     idField.parentElement.parentElement.querySelector(".subtotal");
-
-//   const productID = idField.value;
-
-//   console.log(productID);
-//   fetch(`http://localhost:5000/products/${productID}`)
-//     .then((res) => res.json())
-//     .then((data) => {
-//       description.value = data.description;
-//       unitePrice.value = data.price;
-//       initialUnitePrice = data.price;
-//       subtotal.innerHTML = data.price;
-//     });
-// }
-
-let previous_value;
-
-// function quantityChange() {
-//   const quantity = document.querySelector(".quantity");
-//   const subtotal = document.querySelector(".subtotal");
-//   if (subtotal.innerHTML === "" || subtotal.innerHTML === "SubTotal") {
-//     return;
-//   }
-//   const quantityValue = +quantity.value;
-//   const subtotalValue = +subtotal.innerHTML;
-
-//   console.log(previous_value, quantityValue, subtotalValue);
-
-//   if (previous_value < quantityValue) {
-//     subtotal.innerHTML = initialUnitePrice * quantityValue;
-//   } else if (previous_value > quantityValue) {
-//     subtotal.innerHTML = subtotalValue - initialUnitePrice;
-//   }
-//   previous_value = quantityValue;
-// }
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Tab") {
@@ -202,6 +157,33 @@ document.addEventListener("keydown", (e) => {
             initialUnitePrice = data.price;
             subtotal.innerHTML = data.price;
           });
+      });
+    }
+
+    let previous_value;
+
+    const quantities = document.querySelectorAll(".quantity");
+    const subtotals = document.querySelectorAll(".subtotal");
+
+    for (let i = 0; i < quantities.length; i++) {
+      quantities[i].addEventListener("change", function (e) {
+        if (
+          subtotals[i].innerHTML === "" ||
+          subtotals[i].innerHTML === "SubTotal"
+        ) {
+          return;
+        }
+        const quantityValue = +quantities[i].value;
+        const subtotalValue = +subtotals[i].innerHTML;
+
+        console.log(previous_value, quantityValue, subtotalValue);
+
+        if (previous_value < quantityValue) {
+          subtotals[i].innerHTML = initialUnitePrice * quantityValue;
+        } else if (previous_value > quantityValue) {
+          subtotals[i].innerHTML = subtotalValue - initialUnitePrice;
+        }
+        previous_value = quantityValue;
       });
     }
   }
