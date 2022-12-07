@@ -76,52 +76,59 @@
 
 // makeNavigable();
 
+// const productID = document.querySelectorAll(".productId");
+// for (let i = 0; i < productID.length; i++) {
+//   productID[i].addEventListener("keyup", function (e) {
+//     console.log("clicked");
+//   });
+// }
+
 // getProductsData when input change
 let initialUnitePrice = 0;
 
-function getProductData() {
-  const idField = document.querySelector(".productId");
+// function getProductData() {
+//   const idField = document.querySelector(".productId");
 
-  const description =
-    idField.parentElement.parentElement.querySelector(".description");
-  const unitePrice =
-    idField.parentElement.parentElement.querySelector(".unitePrice");
-  const subtotal =
-    idField.parentElement.parentElement.querySelector(".subtotal");
+//   const description =
+//     idField.parentElement.parentElement.querySelector(".description");
+//   const unitePrice =
+//     idField.parentElement.parentElement.querySelector(".unitePrice");
+//   const subtotal =
+//     idField.parentElement.parentElement.querySelector(".subtotal");
 
-  const productID = idField.value;
+//   const productID = idField.value;
 
-  console.log(productID);
-  fetch(`http://localhost:5000/products/${productID}`)
-    .then((res) => res.json())
-    .then((data) => {
-      description.value = data.description;
-      unitePrice.value = data.price;
-      initialUnitePrice = data.price;
-      subtotal.innerHTML = data.price;
-    });
-}
+//   console.log(productID);
+//   fetch(`http://localhost:5000/products/${productID}`)
+//     .then((res) => res.json())
+//     .then((data) => {
+//       description.value = data.description;
+//       unitePrice.value = data.price;
+//       initialUnitePrice = data.price;
+//       subtotal.innerHTML = data.price;
+//     });
+// }
 
 let previous_value;
 
-document.querySelector(".quantity").addEventListener("change", function () {
-  const quantity = document.querySelector(".quantity");
-  const subtotal = document.querySelector(".subtotal");
-  if (subtotal.innerHTML === "" || subtotal.innerHTML === "SubTotal") {
-    return;
-  }
-  const quantityValue = +quantity.value;
-  const subtotalValue = +subtotal.innerHTML;
+// function quantityChange() {
+//   const quantity = document.querySelector(".quantity");
+//   const subtotal = document.querySelector(".subtotal");
+//   if (subtotal.innerHTML === "" || subtotal.innerHTML === "SubTotal") {
+//     return;
+//   }
+//   const quantityValue = +quantity.value;
+//   const subtotalValue = +subtotal.innerHTML;
 
-  console.log(previous_value, quantityValue, subtotalValue);
+//   console.log(previous_value, quantityValue, subtotalValue);
 
-  if (previous_value < quantityValue) {
-    subtotal.innerHTML = initialUnitePrice * quantityValue;
-  } else if (previous_value > quantityValue) {
-    subtotal.innerHTML = subtotalValue - initialUnitePrice;
-  }
-  previous_value = quantityValue;
-});
+//   if (previous_value < quantityValue) {
+//     subtotal.innerHTML = initialUnitePrice * quantityValue;
+//   } else if (previous_value > quantityValue) {
+//     subtotal.innerHTML = subtotalValue - initialUnitePrice;
+//   }
+//   previous_value = quantityValue;
+// }
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Tab") {
@@ -136,7 +143,6 @@ document.addEventListener("keydown", (e) => {
       type="text"
       placeholder="example 001.."
       aria-label="productId input"
-      onkeyup="getProductData()"
     />
   </td>
   <td>
@@ -172,6 +178,31 @@ document.addEventListener("keydown", (e) => {
   </td>`;
 
     tableBody.appendChild(tableRow);
-    console.log("tab key pressesd");
+
+    const productIDs = document.querySelectorAll(".productId");
+    for (let i = 0; i < productIDs.length; i++) {
+      productIDs[i].addEventListener("keyup", function (e) {
+        const idField = productIDs[i];
+
+        const description =
+          idField.parentElement.parentElement.querySelector(".description");
+        const unitePrice =
+          idField.parentElement.parentElement.querySelector(".unitePrice");
+        const subtotal =
+          idField.parentElement.parentElement.querySelector(".subtotal");
+
+        const productID = idField.value;
+
+        console.log(productID);
+        fetch(`http://localhost:5000/products/${productID}`)
+          .then((res) => res.json())
+          .then((data) => {
+            description.value = data.description;
+            unitePrice.value = data.price;
+            initialUnitePrice = data.price;
+            subtotal.innerHTML = data.price;
+          });
+      });
+    }
   }
 });
